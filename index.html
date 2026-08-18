@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Speaking Toolkit — 30p/ngày</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EEF1F5;
+    --panel:#FFFFFF;
+    --ink:#16233A;
+    --ink-soft:#4A5568;
+    --gold:#B9821F;
+    --gold-bg:#FBF1DD;
+    --sage:#3F6E56;
+    --sage-bg:#E6EFE9;
+    --brick:#A6472F;
+    --brick-bg:#F7E6E1;
+    --rule:#C7CEDA;
+  }
+  *{box-sizing:border-box;}
+  html,body{ margin:0; padding:0; background:var(--paper); color:var(--ink); font-family:'IBM Plex Sans', sans-serif; }
+  body{ padding:18px; }
+  .sheet{ max-width:1800px; margin:0 auto; }
+  .masthead{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    border-bottom:3px solid var(--ink); padding-bottom:10px; margin-bottom:12px;
+  }
+  .masthead h1{ font-family:'Fraunces', serif; font-weight:700; font-size:30px; margin:0; letter-spacing:-0.01em; }
+  .masthead .sub{ font-size:12.5px; color:var(--ink-soft); margin-top:3px; }
+  .masthead .meta{ text-align:right; font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft); line-height:1.5; }
+  .masthead .meta b{color:var(--ink);}
+
+  .timeline{ display:grid; grid-template-columns: repeat(6, 1fr); gap:6px; margin-bottom:14px; }
+  .tl-cell{ background:var(--panel); border:1px solid var(--rule); border-top:4px solid var(--gold); border-radius:4px; padding:7px 9px; }
+  .tl-cell .t{ font-family:'IBM Plex Mono', monospace; font-size:10px; color:var(--gold); font-weight:600; }
+  .tl-cell .d{ font-size:12px; font-weight:600; margin-top:2px; }
+
+  .grid{ display:grid; grid-template-columns: 1.05fr 1.35fr 1.15fr; gap:14px; align-items:start; }
+  .col{ display:flex; flex-direction:column; gap:14px; }
+
+  .card{ background:var(--panel); border:1px solid var(--rule); border-radius:6px; position:relative; overflow:hidden; }
+  .tab{ font-family:'IBM Plex Mono', monospace; font-size:10px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:#fff; padding:5px 12px; display:flex; justify-content:space-between; align-items:center; }
+  .tab.gold{background:var(--gold);}
+  .tab.sage{background:var(--sage);}
+  .tab.brick{background:var(--brick);}
+  .tab.ink{background:var(--ink);}
+
+  .card h2{ font-family:'Fraunces', serif; font-size:16px; font-weight:600; margin:10px 12px 6px; }
+  .card .body{ padding:0 12px 12px; font-size:12.3px; line-height:1.5; }
+  .card .body p{margin:4px 0;}
+  .hint{ color:var(--ink-soft); font-size:11px; font-style:italic; }
+
+  /* Roadmap */
+  .roadmap{ display:grid; grid-template-columns: repeat(7, 1fr); gap:4px; margin-top:4px; }
+  button.rm-day{
+    all:unset; cursor:pointer;
+    background:var(--gold-bg); border:1px solid #EAD9AF; border-radius:4px;
+    padding:4px 3px; font-size:9.5px; line-height:1.25; min-height:38px;
+    display:block; font-family:inherit; color:var(--ink);
+    transition:background .12s, border-color .12s, transform .08s;
+  }
+  button.rm-day:hover{ background:#F6E4BC; }
+  button.rm-day:focus-visible{ outline:2px solid var(--ink); outline-offset:1px; }
+  button.rm-day.active{ background:var(--gold); border-color:var(--gold); color:#fff; }
+  button.rm-day .n{ font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:9.5px; display:block; }
+  button.rm-day.active .n{ color:#fff; }
+  .rm-week-label{ font-family:'IBM Plex Mono', monospace; font-size:10px; font-weight:600; color:var(--ink-soft); margin-top:8px; margin-bottom:2px; }
+  .rm-week-label:first-child{margin-top:0;}
+
+  ul.plist{margin:4px 0; padding-left:16px;}
+  ul.plist li{margin-bottom:4px;}
+  code.f{ background:var(--sage-bg); color:var(--sage); padding:1px 5px; border-radius:3px; font-family:'IBM Plex Mono', monospace; font-size:11px; }
+  code.b{ background:var(--brick-bg); color:var(--brick); padding:1px 5px; border-radius:3px; font-family:'IBM Plex Mono', monospace; font-size:11px; }
+
+  .formula{ display:flex; flex-wrap:wrap; gap:5px; align-items:center; margin:8px 0; font-family:'IBM Plex Mono', monospace; font-size:11px; font-weight:600; }
+  .formula span{ background:var(--sage-bg); color:var(--sage); padding:3px 8px; border-radius:3px; }
+  .formula .arrow{background:none; color:var(--ink-soft); padding:0;}
+
+  .qnum{ display:inline-block; min-width:16px; font-family:'IBM Plex Mono', monospace; font-weight:700; color:var(--gold); font-size:11px; }
+  .qgroup{margin-bottom:8px;}
+  .qgroup .glabel{ font-family:'IBM Plex Mono', monospace; font-size:9.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin-bottom:3px; }
+
+  .vocab-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:2px 12px; font-size:11.5px; margin-top:4px; }
+  .vocab-grid div{border-bottom:1px dotted var(--rule); padding:2px 0;}
+
+  .rules{list-style:none; margin:0; padding:0;}
+  .rules li{ display:flex; gap:8px; margin-bottom:7px; font-size:12px; align-items:flex-start; }
+  .rules .num{ font-family:'IBM Plex Mono', monospace; font-weight:700; color:var(--brick); font-size:12px; }
+
+  .footer-note{ margin-top:14px; padding-top:8px; border-top:1px dashed var(--rule); font-size:11px; color:var(--ink-soft); text-align:center; }
+
+  .debate-item{ margin-bottom:10px; padding-bottom:8px; border-bottom:1px dotted var(--rule); }
+  .debate-item .motion{ font-weight:600; margin-bottom:3px; }
+  .debate-item .side{ font-size:11.5px; margin:2px 0; }
+  .debate-item .side b{ color:var(--sage); }
+  .debate-item .side.against b{ color:var(--brick); }
+
+  .review-chip{ display:inline-block; background:var(--sage-bg); color:var(--sage); border-radius:3px; padding:2px 7px; font-size:10.5px; margin:2px 3px 2px 0; }
+
+  #day-badge{ font-weight:700; }
+
+  @media print{
+    body{padding:0; background:#fff;}
+    .sheet{max-width:100%;}
+    @page{size:A4 landscape; margin:10mm;}
+    .card{break-inside:avoid;}
+    button.rm-day{cursor:default;}
+  }
+  @media (max-width:1000px){
+    .grid{grid-template-columns:1fr;}
+    .timeline{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="masthead">
+    <div>
+      <h1>Speaking Toolkit — 30 phút/ngày</h1>
+      <div class="sub">Luyện nói tiếng Anh cùng em trai · A2 → B1 · Click vào 1 ngày trong lộ trình để xem nội dung buổi đó</div>
+    </div>
+    <div class="meta">
+      <div><b>4 tuần</b> · 28 buổi · 1 topic/ngày</div>
+      <div>In A4 ngang hoặc xem full màn hình</div>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-cell"><div class="t">0–3'</div><div class="d">Warm-up</div></div>
+    <div class="tl-cell"><div class="t">3–10'</div><div class="d">A hỏi → B trả lời</div></div>
+    <div class="tl-cell"><div class="t">10–17'</div><div class="d">Đổi vai</div></div>
+    <div class="tl-cell"><div class="t">17–25'</div><div class="d">Discussion + Opinion</div></div>
+    <div class="tl-cell"><div class="t">25–28'</div><div class="d">Kể 1 câu chuyện liên quan</div></div>
+    <div class="tl-cell"><div class="t">28–30'</div><div class="d">Sửa 3–5 lỗi quan trọng</div></div>
+  </div>
+
+  <div class="grid">
+
+    <!-- COLUMN 1: Roadmap + Golden Rules -->
+    <div class="col">
+      <div class="card">
+        <div class="tab ink">Lộ trình 4 tuần — click để xem</div>
+        <div class="body" id="roadmap-body"></div>
+      </div>
+
+      <div class="card">
+        <div class="tab brick">Nguyên tắc vàng</div>
+        <div class="body">
+          <ul class="rules">
+            <li><span class="num">1</span> Không đọc script khi nói — chỉ xem trước từ khóa & mẫu câu.</li>
+            <li><span class="num">2</span> Không ngắt sửa lỗi ngay — để người kia nói hết ý.</li>
+            <li><span class="num">3</span> Cuối buổi chỉ sửa 3–5 lỗi quan trọng nhất, không sửa hết.</li>
+            <li><span class="num">4</span> Mỗi câu trả lời xong đều hỏi ngược lại "What about you?"</li>
+            <li><span class="num">5</span> Trả lời theo công thức Answer→Reason→Example→Extra, không dừng ở 1 câu.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMN 2: Core toolkit + Rescue phrases (static, dùng mọi buổi) -->
+    <div class="col">
+      <div class="card">
+        <div class="tab sage">Core toolkit — dùng mọi buổi</div>
+        <div class="body">
+          <p><b>Công thức kéo dài câu trả lời:</b></p>
+          <div class="formula">
+            <span>Answer</span><span class="arrow">→</span><span>Reason</span><span class="arrow">→</span><span>Example</span><span class="arrow">→</span><span>Extra info</span>
+          </div>
+
+          <p><b>Tần suất:</b></p>
+          <ul class="plist">
+            <li><code class="f">I usually / normally</code> + V</li>
+            <li><code class="f">I tend to</code> + V <span class="hint">— tôi có xu hướng...</span></li>
+            <li><code class="f">once or twice a week</code>, <code class="f">almost every day</code></li>
+          </ul>
+
+          <p><b>Đưa opinion:</b></p>
+          <ul class="plist">
+            <li><code class="f">I think... / I don't think...</code></li>
+            <li><code class="f">In my opinion, / Personally, I think...</code></li>
+            <li>Thêm tương phản: <code class="f">However, ...</code></li>
+          </ul>
+
+          <p><b>Không đồng ý (lịch sự):</b></p>
+          <ul class="plist">
+            <li><code class="f">I see your point, but...</code></li>
+            <li><code class="f">I understand what you mean, but...</code></li>
+            <li><code class="f">I'm not sure I agree with that.</code></li>
+          </ul>
+
+          <p><b>Hỏi ngược lại:</b></p>
+          <ul class="plist">
+            <li><code class="f">What about you? / How about you?</code></li>
+            <li><code class="f">Do you feel the same way?</code></li>
+          </ul>
+
+          <p class="hint">Follow-up chain mẫu: How often? → Who with? → Why do you like it? → Since when?</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tab brick">Câu "cứu mạng"</div>
+        <div class="body">
+          <p><b>Cần thời gian suy nghĩ:</b></p>
+          <ul class="plist">
+            <li><code class="b">Let me think.</code></li>
+            <li><code class="b">That's a good question.</code></li>
+            <li><code class="b">I've never really thought about that.</code></li>
+          </ul>
+          <p><b>Quên từ:</b></p>
+          <ul class="plist">
+            <li><code class="b">I don't know the exact word, but it's something like...</code></li>
+            <li><code class="b">It's kind of like... / How can I say this in English?</code></li>
+          </ul>
+          <p><b>Không hiểu người kia:</b></p>
+          <ul class="plist">
+            <li><code class="b">Could you say that again?</code></li>
+            <li><code class="b">Could you speak a little more slowly?</code></li>
+            <li><code class="b">What do you mean by...?</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMN 3: Dynamic day content -->
+    <div class="col">
+      <div class="card">
+        <div class="tab gold"><span id="day-badge">Day 1</span><span id="day-week">Week 1</span></div>
+        <div class="body" id="day-content"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-note">Mỗi tối chỉ xem lại toolkit + topic ngày hôm đó trong 2–3 phút trước khi nói — không học thuộc, không đọc khi nói chuyện.</div>
+
+</div>
+
+<script>
+const DAYS = {
+ 1:{week:1, title:"Daily Routine", goal:"Mô tả 1 ngày, thói quen, thích/không thích, so sánh với em trai.",
+  warmup:["How was your day today?","What did you do today?","Was today a good day? Why?"],
+  main:["What time do you usually wake up?","What do you usually do in the morning?","What do you normally do after lunch?","What do you usually do in the evening?","What do you usually do before bed?","What part of your routine do you enjoy most?","What part do you dislike?","Is your routine different from a few years ago?","If you could change one thing, what would it be?"],
+  vocab:[["wake up","thức dậy"],["get ready","chuẩn bị"],["have breakfast","ăn sáng"],["take a shower","tắm"],["go to work","đi làm"],["work from home","làm ở nhà"],["take a break","nghỉ giải lao"],["have dinner","ăn tối"],["go to bed","đi ngủ"],["from time to time","thỉnh thoảng"]],
+  sample:"I usually play table tennis in my free time. I really enjoy it because it's fun and challenging. I usually play with my friends 3–4 times a week. Recently I've also been trying to improve my backhand."},
+
+ 2:{week:1, title:"Family & Childhood", goal:"Nói về gia đình, tuổi thơ, kỷ niệm, giá trị được dạy.",
+  warmup:["How many people are there in your family?","Are you close to your family?","What was your favorite thing to do as a child?"],
+  main:["Can you briefly describe your family members?","Who are you closest to in your family? Why?","What was your childhood like? Where did you grow up?","Did you have a nickname as a child? Who gave it to you?","What's your favorite childhood memory?","Did your parents' parenting style affect who you are today?","What values did your family teach you?","How has your relationship with your family changed over the years?"],
+  vocab:[["sibling","anh/chị/em ruột"],["close-knit family","gia đình gắn bó"],["raise (a child)","nuôi dạy"],["grow up","lớn lên"],["nickname","biệt danh"],["strict","nghiêm khắc"],["get along with","hòa hợp với"],["extended family","đại gia đình"]],
+  sample:"I'm really close to my mother because she always listens to me without judging. We usually cook together on weekends, and that's when we talk about everything. Growing up, she taught me to be independent, and I think that's shaped who I am today."},
+
+ 3:{week:1, title:"Hobbies & Free Time", goal:"Nói về sở thích, thời gian rảnh, lý do thích/không thích.",
+  warmup:["What do you usually do in your free time?","Do you have a hobby you've had since childhood?","How much free time do you have on weekdays?"],
+  main:["What's your favorite hobby? How often do you do it?","When did you start doing it? Who taught you?","Is it an expensive hobby?","Do you prefer indoor or outdoor hobbies?","Has your hobby changed since you were a child?","Do you think hobbies are important? Why?","Would you like to try a new hobby? What would it be?"],
+  vocab:[["free time / spare time","thời gian rảnh"],["relax","thư giãn"],["be into (something)","thích/mê cái gì"],["get bored","chán"],["improve a skill","cải thiện kỹ năng"],["take up (a hobby)","bắt đầu theo đuổi"],["unwind","giải tỏa căng thẳng"],["collect","sưu tầm"]],
+  sample:"I'm really into photography these days. I usually go out on weekends to take photos of the city. I started about two years ago after a friend lent me his camera, and now I even edit the photos myself. It really helps me unwind after a stressful week."},
+
+ 4:{week:1, title:"Food & Cooking", goal:"Nói về món ăn yêu thích, thói quen ăn uống, nấu nướng.",
+  warmup:["What did you have for breakfast today?","Do you enjoy cooking?","What's your favorite type of food?"],
+  main:["What's your favorite dish? How is it made?","Can you cook? What's your specialty?","Do you prefer eating out or cooking at home? Why?","What's a dish from your hometown that you love?","Have you ever tried foreign food? What did you think?","Do you think Vietnamese food is healthy? Why?","Is there any food you dislike? Why?"],
+  vocab:[["ingredient","nguyên liệu"],["flavor / taste","hương vị"],["spicy / sour / salty / sweet","cay/chua/mặn/ngọt"],["stir-fry","xào"],["boil / steam / grill","luộc/hấp/nướng"],["leftovers","đồ ăn thừa"],["appetite","khẩu vị/sự thèm ăn"],["signature dish","món tủ"]],
+  sample:"My favorite dish is bún chả — grilled pork with rice noodles and a sweet-and-sour dipping sauce. I can actually cook it myself, and I think my version is pretty close to the ones you get in Hanoi. I usually make it for friends when they visit."},
+
+ 5:{week:1, title:"Weekend & Plans", goal:"Nói về kế hoạch, cách sắp xếp thời gian.",
+  warmup:["What are you doing this weekend?","Do you usually plan your weekends in advance?","What did you do last weekend?"],
+  main:["What's your ideal weekend like? Who do you spend it with?","Do you prefer a relaxing weekend or a busy one? Why?","Do you have any plans for next month?","How do you usually spend Sunday evenings?","Do you think it's important to plan ahead? Why?","What's something you've been putting off that you should plan for?"],
+  vocab:[["look forward to","mong chờ"],["day off","ngày nghỉ"],["get things done","hoàn thành công việc"],["procrastinate","trì hoãn"],["in advance","trước"],["catch up with someone","gặp gỡ, hàn huyên"],["errand","việc vặt"],["recharge","nạp lại năng lượng"]],
+  sample:"This weekend I'm planning to catch up with an old friend I haven't seen in months. We're going to grab coffee on Saturday morning, and then I'll probably spend Sunday just recharging at home before the new week starts."},
+
+ 6:{week:1, title:"Friends & Relationships", goal:"Nói về tình bạn, cách kết bạn, xung đột và giải quyết.",
+  warmup:["How many close friends do you have?","How did you meet your best friend?","Do you make friends easily?"],
+  main:["What do you value most in a friendship? Give an example.","How often do you meet up with your friends?","Have you ever had a conflict with a close friend? How did you solve it?","Do you think it's harder to make friends as an adult? Why?","Would you rather have a few close friends or many acquaintances? Why?","What makes someone a good friend?"],
+  vocab:[["trustworthy","đáng tin cậy"],["acquaintance","người quen sơ"],["keep in touch","giữ liên lạc"],["drift apart","xa cách dần"],["supportive","biết ủng hộ"],["get along","hòa hợp"],["loyal","trung thành"],["fall out (with someone)","giận nhau, cắt đứt quan hệ"]],
+  sample:"I'd rather have a few close friends than a lot of acquaintances. I value trust the most — someone I can be honest with. My best friend and I met in university, and even though we don't see each other often now, we still keep in touch every week."},
+
+ 7:{week:1, isReview:true, title:"Review — Week 1",
+  reviewOf:["Daily Routine","Family & Childhood","Hobbies","Food & Cooking","Weekend & Plans","Friends"],
+  discuss:["What was the most interesting thing you talked about this week?","Which topic was hardest for you to speak about? Why?","Try to describe your ideal weekend using at least 3 words from this week's vocab."],
+  challenge:"Thử thách: kể 1 câu chuyện 2 phút nối 3 chủ đề trong tuần (VD: 1 buổi cuối tuần đi ăn cùng bạn thân)."},
+
+ 8:{week:2, title:"Travel", goal:"Nói về du lịch, chuyến đi đáng nhớ, sở thích du lịch, kinh nghiệm.",
+  warmup:["Do you enjoy traveling?","When was the last time you went on a trip?","Do you prefer traveling alone or with others?"],
+  main:["What's the most memorable place you've ever visited? What made it special?","Do you prefer domestic or international travel? Why?","What's your dream destination? Why?","Do you plan your trips carefully or travel spontaneously?","What do you usually pack for a trip? What do you always forget?","Have you ever had a bad experience while traveling? What happened?","What's your favorite way to get around when traveling?","Do you prefer hotels, hostels, or homestays? Why?","What do you usually do to prepare before a long trip?"],
+  vocab:[["destination","điểm đến"],["itinerary","lịch trình"],["book a flight/hotel","đặt vé máy bay/khách sạn"],["backpacking","du lịch bụi"],["sightseeing","tham quan"],["get lost","lạc đường"],["souvenir","quà lưu niệm"],["culture shock","sốc văn hóa"],["off the beaten path","nơi ít người biết đến"],["layover","điểm dừng chuyển chuyến bay"]],
+  sample:"The most memorable trip I've ever taken was to Da Lat. I went with a few friends, and we didn't plan much — we just drove around and stopped wherever looked interesting. What made it special was the weather, and the fact that we got a little lost on the way, which turned into one of the best parts of the trip."},
+
+ 9:{week:2, title:"A Memorable Experience", goal:"Kể lại 1 trải nghiệm đáng nhớ, bài học rút ra.",
+  warmup:["What's one experience that changed you?","Do you like trying new things?","What's something you did for the first time recently?"],
+  main:["What's the most memorable experience of your life? When did it happen?","Was it a positive or negative experience? What did you learn?","Have you ever done something that scared you? How did you feel afterward?","What's an experience you'd like to have but haven't yet?","Has any experience changed the way you think? In what way?","Do you regret not doing something? What was it?"],
+  vocab:[["unforgettable","khó quên"],["life-changing","thay đổi cuộc đời"],["overcome (a fear)","vượt qua (nỗi sợ)"],["step out of your comfort zone","bước ra khỏi vùng an toàn"],["in hindsight","nhìn lại thì"],["regret","hối tiếc"],["milestone","cột mốc"],["take a risk","chấp nhận rủi ro"]],
+  sample:"One of the most memorable experiences I've had was giving a presentation in English for the first time at work. I was terrified beforehand, but afterward I felt so proud of myself. It taught me that stepping out of my comfort zone is usually worth it."},
+
+ 10:{week:2, title:"Movies & Entertainment", goal:"Nói về phim ảnh, giải trí, sở thích xem phim.",
+  warmup:["What kind of movies do you like?","How often do you watch movies?","Do you prefer watching movies at home or at the cinema?"],
+  main:["What's your favorite movie? What's it about?","Who's your favorite actor or director? Why?","Do you prefer movies or TV series? Why?","Has a movie ever made you cry or think deeply? Which one?","Do you watch movies with subtitles or dubbed? Why?","What kind of entertainment do you enjoy besides movies?"],
+  vocab:[["plot","cốt truyện"],["genre","thể loại"],["soundtrack","nhạc phim"],["box office","doanh thu phòng vé"],["subtitle","phụ đề"],["cast","dàn diễn viên"],["sequel","phần tiếp theo"],["overrated / underrated","được đánh giá quá cao/thấp"]],
+  sample:"My favorite movie is probably Interstellar. I love the plot and how it mixes science with emotion — the soundtrack also makes it even more powerful. I usually watch movies with English subtitles so I can pick up new vocabulary at the same time."},
+
+ 11:{week:2, title:"Sports", goal:"Nói về thể thao, thói quen tập luyện, quan điểm về sức khỏe.",
+  warmup:["Do you play any sports?","Do you prefer playing sports or watching them?","What sport did you play as a child?"],
+  main:["What's your favorite sport to play? How often?","What's your favorite sport to watch? Do you follow any teams?","Do you think sports are important for health? Why?","Have you ever competed in a sports competition? How did it go?","Is there a sport you'd like to try? Why haven't you?","Do you think esports should be considered a real sport? Why?"],
+  vocab:[["work out","tập luyện"],["team sport / individual sport","môn đồng đội/cá nhân"],["compete","thi đấu"],["stay in shape","giữ dáng"],["injury","chấn thương"],["fan / supporter","người hâm mộ"],["champion","nhà vô địch"],["warm up / cool down","khởi động/thả lỏng"]],
+  sample:"I play table tennis a few times a week — it's a great way to stay in shape, and it's also really fun because it's competitive. I've never entered an official competition, but my friends and I have our own little tournament every few months."},
+
+ 12:{week:2, title:"School & Education", goal:"Nói về học tập, giáo dục, việc học suốt đời.",
+  warmup:["What was your favorite subject at school?","Did you enjoy studying when you were young?","Do you still study anything now?"],
+  main:["What was your favorite subject? Why did you like it?","Who was your most memorable teacher? What made them memorable?","Does the education system prepare students well for real life?","What's something you wish you'd learned in school but didn't?","Do you believe in lifelong learning? What are you learning now?","Would you rather learn from books or from experience? Why?"],
+  vocab:[["curriculum","chương trình học"],["lifelong learning","học tập suốt đời"],["memorize","ghi nhớ"],["practical skills","kỹ năng thực tế"],["fall behind","tụt lại phía sau"],["self-taught","tự học"],["exam pressure","áp lực thi cử"],["hands-on experience","kinh nghiệm thực tế"]],
+  sample:"I think the education system focuses too much on memorizing theory and not enough on practical skills. For example, I wish I'd learned more about managing money or communicating in English at school. That's actually part of why I'm doing this speaking practice now — being self-taught in what school didn't cover."},
+
+ 13:{week:2, title:"Work & Career", goal:"Nói về công việc, sự nghiệp, cân bằng cuộc sống.",
+  warmup:["What do you do for work?","Do you enjoy your job?","How did you choose your career?"],
+  main:["What do you like most about your job? What do you like least?","What's a typical workday like for you? Is it stressful?","Do you think work-life balance is important? How do you manage it?","Would you rather work for a company or start your own business? Why?","What skills are most important for your career? Are you improving them?","Where do you see yourself professionally in five years?"],
+  vocab:[["workload","khối lượng công việc"],["promotion","thăng chức"],["deadline","hạn chót"],["work-life balance","cân bằng công việc-cuộc sống"],["colleague","đồng nghiệp"],["freelance","làm tự do"],["burnout","kiệt sức"],["career path","con đường sự nghiệp"]],
+  sample:"I work in an office job, and what I like most is that every day is a bit different. The hardest part is managing deadlines when several projects overlap. I try to keep a work-life balance by setting a clear stop time in the evening — that's actually one reason I do this English practice, to unwind and improve at the same time."},
+
+ 14:{week:2, isReview:true, title:"Review — Week 2",
+  reviewOf:["Travel","A Memorable Experience","Movies & Entertainment","Sports","School & Education","Work & Career"],
+  discuss:["Which topic this week gave you the most new vocabulary?","Tell a 2-minute story that connects a trip and a memorable experience.","What's a work or school lesson you'd tell your younger self?"],
+  challenge:"Thử thách: dùng ít nhất 5 từ vựng của tuần 2 trong 1 đoạn kể chuyện liền mạch."},
+
+ 15:{week:3, title:"Money", goal:"Nói về tiền bạc, tiết kiệm, đầu tư, quan điểm về tiền và hạnh phúc.",
+  warmup:["Do you think a lot about money?","Are you a saver or a spender?","What was the last thing you bought?"],
+  main:["Do you think money can buy happiness? Why?","What's your approach to saving money? Do you have a budget?","What would you do with a large sum of money?","Do you prefer paying with cash or e-wallets? Why?","Do you think it's important to invest money? Do you invest?","What's something you'd never spend money on?"],
+  vocab:[["budget","ngân sách"],["save up","tiết kiệm"],["splurge","tiêu xài hoang phí"],["investment","đầu tư"],["afford","đủ khả năng chi trả"],["debt","nợ"],["financially independent","độc lập tài chính"],["worth it","đáng giá"]],
+  sample:"I think money can't buy happiness directly, but it definitely buys freedom, and freedom makes you happier. I try to save around 20% of my income every month, and I've recently started investing a small amount just to learn how it works."},
+
+ 16:{week:3, title:"Technology & AI", goal:"Nói về công nghệ, AI, tác động đến cuộc sống và công việc.",
+  warmup:["How much time do you spend on technology every day?","Do you find it easy or hard to keep up with new technology?","What's your favorite piece of technology?"],
+  main:["How has technology changed your daily life? Give an example.","Do you use AI tools? What for?","Do you think AI will replace human jobs? Which ones?","What are the benefits and risks of AI? Which worries you more?","Do you think people are too dependent on technology? Why?","What technology will change our lives most in the next 10 years?"],
+  vocab:[["artificial intelligence (AI)","trí tuệ nhân tạo"],["automate","tự động hóa"],["dependent on","phụ thuộc vào"],["cutting-edge","tiên tiến nhất"],["privacy","quyền riêng tư"],["efficient","hiệu quả"],["disruption","sự thay đổi lớn"],["keep up with","theo kịp"]],
+  sample:"Technology has completely changed how I work — I use AI tools almost every day to help with writing and organizing tasks. It's made me a lot more efficient, but I do worry that some jobs, especially repetitive ones, might disappear because of automation."},
+
+ 17:{week:3, title:"Social Media", goal:"Nói về mạng xã hội, thói quen sử dụng, tác động tích cực/tiêu cực.",
+  warmup:["Which social media platforms do you use?","How much time do you spend on social media daily?","Do you post often?"],
+  main:["What do you mainly use social media for?","Do you think social media is good or bad for society? Why?","Have you ever taken a break from social media? How did it feel?","Do you think people show their real lives on social media?","Has social media ever affected your mood? How?","What would you change about social media if you could?"],
+  vocab:[["scroll (through)","lướt (mạng)"],["influencer","người có sức ảnh hưởng"],["go viral","lan truyền nhanh"],["comparison","sự so sánh"],["addictive","gây nghiện"],["privacy setting","cài đặt riêng tư"],["online persona","hình ảnh trên mạng"],["digital detox","thanh lọc kỹ thuật số"]],
+  sample:"I mostly use social media to keep up with friends and follow a few creators I like. Honestly, I think it can be addictive, and sometimes scrolling for too long puts me in a bad mood because of comparison. I tried a digital detox for a week once, and I actually felt calmer."},
+
+ 18:{week:3, title:"Living in Hanoi", goal:"Nói về nơi mình sống, thuận lợi và khó khăn.",
+  warmup:["What do you like most about living in Hanoi?","What do you find most frustrating about it?","How long have you lived in Hanoi?"],
+  main:["What's your neighborhood like?","How's the traffic in Hanoi? How do you deal with it?","What's your favorite place in Hanoi? Why?","Do you think Hanoi has changed a lot in recent years? How?","Would you ever consider living somewhere else?","What would you improve about Hanoi if you could?"],
+  vocab:[["traffic jam","tắc đường"],["cost of living","chi phí sinh hoạt"],["convenient","thuận tiện"],["crowded","đông đúc"],["pollution","ô nhiễm"],["neighborhood","khu phố"],["urbanization","đô thị hóa"],["hustle and bustle","sự nhộn nhịp"]],
+  sample:"What I like most about living in Hanoi is the food and how convenient everything is — you can get almost anything delivered in 20 minutes. What frustrates me is the traffic, especially during rush hour. If I could change one thing, it would be improving public transportation."},
+
+ 19:{week:3, title:"Health & Lifestyle", goal:"Nói về sức khỏe thể chất và tinh thần, thói quen sống.",
+  warmup:["Do you think you have a healthy lifestyle?","Do you exercise regularly?","How well do you usually sleep?"],
+  main:["What does a healthy lifestyle mean to you? Do you follow it?","What do you do to exercise?","How's your diet? Do you try to eat healthy?","How much sleep do you usually get? Is it enough?","Do you think mental health is as important as physical health?","What's one habit you'd like to change for better health?"],
+  vocab:[["well-being","sự khỏe mạnh/hạnh phúc"],["diet","chế độ ăn"],["stay hydrated","uống đủ nước"],["sedentary lifestyle","lối sống ít vận động"],["stress management","quản lý căng thẳng"],["balanced diet","chế độ ăn cân bằng"],["mental health","sức khỏe tinh thần"],["get enough sleep","ngủ đủ giấc"]],
+  sample:"Honestly, I don't think I have a very healthy lifestyle — I sit a lot for work, and I don't always get enough sleep. I've been trying to exercise three times a week though, and it's already made a difference in how I feel mentally, not just physically."},
+
+ 20:{week:3, title:"Success & Failure", goal:"Nói về thành công, thất bại, bài học và động lực.",
+  warmup:["How do you define success?","Have you ever failed at something important?","Are you afraid of failure?"],
+  main:["How do you define success? Has that changed over time?","What's something you're proud of achieving?","What's a failure that taught you something important?","Do you think failure is necessary for success? Why?","Who do you consider a successful person? Why?","How do you usually recover from a setback?"],
+  vocab:[["achievement","thành tựu"],["setback","trở ngại"],["persistence","sự kiên trì"],["give up","từ bỏ"],["learn from mistakes","học từ sai lầm"],["accomplish","hoàn thành, đạt được"],["fulfilling","mãn nguyện, ý nghĩa"],["bounce back","hồi phục, gượng dậy"]],
+  sample:"To me, success isn't just about money — it's about feeling fulfilled in what you do. One failure that taught me a lot was a project at work that didn't go as planned; it taught me to communicate expectations more clearly from the start. Failure is actually necessary — you rarely improve without it."},
+
+ 21:{week:3, isReview:true, title:"Review — Week 3",
+  reviewOf:["Money","Technology & AI","Social Media","Living in Hanoi","Health & Lifestyle","Success & Failure"],
+  discuss:["Which topic this week made you think the most?","Do you think technology and money are connected to happiness? How?","Describe one health habit you want to build, using this week's vocab."],
+  challenge:"Thử thách: tranh luận nhẹ 3 phút — 'Is social media doing more good than harm?'"},
+
+ 22:{week:4, title:"Future Plans", goal:"Nói về mục tiêu tương lai, kế hoạch dài hạn.",
+  warmup:["Do you often think about the future?","Are you a planner or do you go with the flow?","What are your plans for next year?"],
+  main:["What are your goals for the next five years? What steps are you taking?","Do you have any big plans coming up?","Is there something you want to achieve before turning a certain age?","Do you prefer to plan far ahead or take things day by day?","What's one thing you hope will be different about your life in 10 years?"],
+  vocab:[["goal / target","mục tiêu"],["long-term / short-term","dài hạn/ngắn hạn"],["take steps toward","từng bước hướng tới"],["go with the flow","thuận theo tự nhiên"],["aspiration","khát vọng"],["milestone","cột mốc"],["uncertain","không chắc chắn"],["envision","hình dung"]],
+  sample:"One of my main goals for the next few years is to become fluent in English, which is actually why I started this daily practice. I'm taking small steps toward it every day, and I try not to worry too much about the uncertain parts of the future."},
+
+ 23:{week:4, title:"Dream Job", goal:"Nói về công việc mơ ước, đam mê và tính thực tế.",
+  warmup:["What's your dream job?","Is your current job close to your dream job?","What did you want to be as a child?"],
+  main:["What's your dream job? What draws you to it?","What did you want to be as a child? Why did that change (or not)?","What's more important to you: passion or salary? Why?","What skills would you need to get your dream job? Are you working on them?","Do you believe everyone can find a job they love? Why?"],
+  vocab:[["passion","đam mê"],["salary","lương"],["job satisfaction","sự hài lòng công việc"],["pursue (a career)","theo đuổi (sự nghiệp)"],["qualifications","bằng cấp/trình độ"],["entrepreneur","doanh nhân khởi nghiệp"],["practical","thực tế"],["fulfillment","sự mãn nguyện"]],
+  sample:"As a kid, I wanted to be a pilot, mostly because I loved the idea of traveling for free! Now my dream job would be something that combines creativity and problem-solving. Passion matters a lot, but I also believe you need a practical plan to actually get there."},
+
+ 24:{week:4, title:"What Makes People Happy?", goal:"Nói về hạnh phúc, sự hài lòng, giá trị sống.",
+  warmup:["What makes you happy?","Do you think happiness is a choice?","When was the last time you felt really happy?"],
+  main:["What makes you truly happy? How often do you experience that?","Do you think money is necessary for happiness? Why?","Does happiness come more from relationships or achievements?","Is happiness a choice or something that happens to you?","What's a small thing that makes your day better?"],
+  vocab:[["contentment","sự thỏa mãn, hài lòng"],["gratitude","lòng biết ơn"],["fulfillment","sự mãn nguyện"],["mood booster","thứ làm tinh thần vui hơn"],["appreciate","trân trọng"],["meaningful","có ý nghĩa"],["inner peace","sự bình yên nội tâm"],["simple pleasures","niềm vui giản dị"]],
+  sample:"For me, happiness usually comes from small, simple things — a good cup of coffee, a nice conversation, or finishing something I've been working on. I do think happiness is partly a choice; practicing gratitude has genuinely made me notice more good things in my day."},
+
+ 25:{week:4, title:"City vs Countryside", goal:"So sánh cuộc sống thành thị và nông thôn.",
+  warmup:["Where would you rather live: the city or the countryside?","Have you ever lived in the countryside?","What do you associate with countryside life?"],
+  main:["What are the advantages of living in a city? Disadvantages?","What are the advantages of living in the countryside? Disadvantages?","Where do you think is better for raising children? Why?","Do you think people in the countryside are happier? Why?","Would you ever move to the countryside permanently? Why?"],
+  vocab:[["pace of life","nhịp sống"],["fresh air","không khí trong lành"],["job opportunity","cơ hội việc làm"],["peaceful","yên bình"],["overcrowded","quá đông đúc"],["community","cộng đồng"],["amenities","tiện nghi"],["self-sufficient","tự cung tự cấp"]],
+  sample:"I'd probably choose the city for now because of the job opportunities and convenience, but honestly, the pace of life in the countryside sounds really appealing — more peaceful, more fresh air. Maybe when I'm older, I'd consider moving somewhere quieter."},
+
+ 26:{week:4, title:"Young People Today", goal:"Nói về thế hệ trẻ, áp lực xã hội, khoảng cách thế hệ.",
+  warmup:["What's different about your generation vs your parents'?","Do you think young people today have it easier or harder?","What do you think defines your generation?"],
+  main:["What are the biggest challenges young people face today?","Do you think young people today are too dependent on technology?","What do you think about the pressure to succeed early in life?","Do you think young people today are more open-minded? How?","What's something older generations misunderstand about young people?"],
+  vocab:[["generation gap","khoảng cách thế hệ"],["open-minded","cởi mở"],["peer pressure","áp lực đồng trang lứa"],["work ethic","đạo đức làm việc"],["burnt out","kiệt sức"],["stereotype","định kiến"],["adapt","thích nghi"],["societal pressure","áp lực xã hội"]],
+  sample:"I think my generation faces a lot more pressure to succeed early — thanks to social media, everyone can see everyone else's achievements, which creates a lot of comparison. On the positive side, I think we're generally more open-minded about things like mental health and career choices."},
+
+ 27:{week:4, title:"Relationships & Marriage", goal:"Nói về tình yêu, hôn nhân, các giá trị trong mối quan hệ.",
+  warmup:["Is marriage important to you?","What do you think makes a relationship last?","Do you believe in love at first sight?"],
+  main:["What qualities do you look for in a partner? Why?","Do you think marriage is necessary in a relationship?","What's the biggest challenge in long-term relationships?","Do you think people should live together before marriage?","How has the idea of marriage changed in your country recently?"],
+  vocab:[["commitment","sự cam kết"],["compromise","sự thỏa hiệp"],["trust","sự tin tưởng"],["in-laws","gia đình bên vợ/chồng"],["proposal","lời cầu hôn"],["long-distance relationship","yêu xa"],["compatible","hợp nhau"],["soulmate","người bạn đời tri kỷ"]],
+  sample:"For me, the most important quality in a partner is compatibility in values, not just attraction. I do think marriage matters, but I believe communication and compromise matter even more for making a relationship last long-term."},
+
+ 28:{week:4, isDebate:true, title:"Free Debate",
+  intro:"Buổi cuối: không có vocab mới, chỉ tranh luận. Mỗi chủ đề: 1 người ủng hộ (For), 1 người phản đối (Against), 3–4 phút mỗi bên, sau đó đổi vai.",
+  debates:[
+   {motion:"Is it better to work for a company or be self-employed?", forA:"You have stability, benefits, and colleagues.", against:"You have freedom, unlimited income, and full control."},
+   {motion:"Should social media be regulated more by the government?", forA:"It protects people from misinformation and addiction.", against:"It limits freedom of speech and personal choice."},
+   {motion:"Is technology making us more or less connected?", forA:"We can talk to anyone, anytime, anywhere.", against:"Face-to-face relationships are getting weaker."},
+   {motion:"Passion vs salary: which matters more when choosing a career?", forA:"Passion keeps you motivated for the long run.", against:"Salary gives you security and options in life."},
+   {motion:"Is it better to live in the city or the countryside?", forA:"More opportunities, more convenience.", against:"More peace, more space, lower cost of living."}
+  ],
+  closing:["What did you learn from your partner's arguments?","Did anything change your mind during the debate?","Which side was actually easier for you to argue? Why?"]}
+};
+
+const WEEK_TITLES = {1:"Everyday", 2:"Experiences", 3:"Opinions", 4:"Discussion"};
+const roadmapBody = document.getElementById('roadmap-body');
+let html = '';
+for(let w=1; w<=4; w++){
+  html += `<div class="rm-week-label">Week ${w} — ${WEEK_TITLES[w]}</div><div class="roadmap">`;
+  for(let d=(w-1)*7+1; d<=w*7; d++){
+    const item = DAYS[d];
+    const label = item.title;
+    html += `<button class="rm-day" data-day="${d}"><span class="n">${d}</span>${label}</button>`;
+  }
+  html += `</div>`;
+}
+roadmapBody.innerHTML = html;
+
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function renderDay(id){
+  const d = DAYS[id];
+  document.getElementById('day-badge').textContent = 'Day ' + id + ' — ' + d.title;
+  document.getElementById('day-week').textContent = 'Week ' + d.week;
+
+  document.querySelectorAll('.rm-day').forEach(btn=>{
+    btn.classList.toggle('active', Number(btn.dataset.day) === id);
+  });
+
+  const box = document.getElementById('day-content');
+
+  if(d.isReview){
+    box.innerHTML = `
+      <p class="hint">Ôn tập tuần ${d.week} — không có vocab mới, tập trung nói tự do.</p>
+      <p><b>Chủ đề đã học:</b></p>
+      <p>${d.reviewOf.map(t=>`<span class="review-chip">${escapeHtml(t)}</span>`).join('')}</p>
+      <p><b>Câu hỏi thảo luận:</b></p>
+      <div class="qgroup">${d.discuss.map((q,i)=>`<p><span class="qnum">${i+1}</span> ${escapeHtml(q)}</p>`).join('')}</div>
+      <p><b>${escapeHtml(d.challenge)}</b></p>
+    `;
+    return;
+  }
+
+  if(d.isDebate){
+    box.innerHTML = `
+      <p class="hint">${escapeHtml(d.intro)}</p>
+      ${d.debates.map(x=>`
+        <div class="debate-item">
+          <div class="motion">${escapeHtml(x.motion)}</div>
+          <div class="side"><b>For:</b> ${escapeHtml(x.forA)}</div>
+          <div class="side against"><b>Against:</b> ${escapeHtml(x.against)}</div>
+        </div>`).join('')}
+      <p><b>Closing round:</b></p>
+      <div class="qgroup">${d.closing.map((q,i)=>`<p><span class="qnum">${i+1}</span> ${escapeHtml(q)}</p>`).join('')}</div>
+    `;
+    return;
+  }
+
+  box.innerHTML = `
+    <p class="hint">${escapeHtml(d.goal)}</p>
+    <div class="qgroup">
+      <div class="glabel">Warm-up</div>
+      ${d.warmup.map((q,i)=>`<p><span class="qnum">${i+1}</span> ${escapeHtml(q)}</p>`).join('')}
+    </div>
+    <div class="qgroup">
+      <div class="glabel">Main questions</div>
+      ${d.main.map((q,i)=>`<p><span class="qnum">${i+4}</span> ${escapeHtml(q)}</p>`).join('')}
+    </div>
+    <p><b>Vocab (${d.vocab.length}):</b></p>
+    <div class="vocab-grid">
+      ${d.vocab.map(v=>`<div>${escapeHtml(v[0])} — ${escapeHtml(v[1])}</div>`).join('')}
+    </div>
+    <p style="margin-top:8px;"><b>Mẫu trả lời đầy đủ:</b></p>
+    <p style="font-size:11.5px; color:var(--ink-soft);">"${escapeHtml(d.sample)}"</p>
+  `;
+}
+
+document.getElementById('roadmap-body').addEventListener('click', e=>{
+  const btn = e.target.closest('.rm-day');
+  if(!btn) return;
+  renderDay(Number(btn.dataset.day));
+});
+
+renderDay(1);
+</script>
+</body>
+</html>
